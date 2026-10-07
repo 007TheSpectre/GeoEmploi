@@ -1,10 +1,13 @@
-> **Epitech project — `G-SVR-500` (`survivor`)**
+> **Epitech · `G-SVR-500` (« survivor »)** — projet d'équipe mené avec
+> [cray06](https://github.com/cray06),
+> [TheSpectre07](https://github.com/TheSpectre07),
+> [Romanecauvez](https://github.com/Romanecauvez) et
+> [Enzo-senechal](https://github.com/Enzo-senechal).
 >
-> Built with [cray06](https://github.com/cray06), [TheSpectre07](https://github.com/TheSpectre07), [Romanecauvez](https://github.com/Romanecauvez), [Enzo-senechal](https://github.com/Enzo-senechal).
-> I was one of the main contributors on the backend, database and deployment side of the project.
+> **Mon rôle :** backend, base de données et déploiement.
 >
-> This is my own copy of the assignment repository, published here as a
-> portfolio piece. The original repository is private.
+> Ce dépôt est ma copie personnelle du rendu, publiée comme projet de portfolio.
+> Le dépôt d'origine est privé.
 
 ---
 
