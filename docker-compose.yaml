@@ -1,0 +1,143 @@
+name: geoemploi
+
+services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+
+    ports:
+      - "5432:5432"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - geoemploi-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    restart: unless-stopped
+
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-geoemploi-api}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-geoemploi-web}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      SWAGGER_ENABLED: ${SWAGGER_ENABLED:-false}
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/health').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+    networks:
+      - geoemploi-network
+
+  test-setup:
+    image: postgres:17-alpine
+    restart: "no"
+
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - ./database/test-setup.sql:/test-setup.sql:ro
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+    command: ["psql", "-h", "database", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}", "-v", "ON_ERROR_STOP=1", "-f", "/test-setup.sql"]
+
+    networks:
+      - geoemploi-network
+
+  tests:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile
+
+    environment:
+      API_URL: http://backend:3000
+
+    depends_on:
+      backend:
+        condition: service_healthy
+      test-setup:
+        condition: service_completed_successfully
+
+    networks:
+      - geoemploi-network
+
+  cleanup:
+    image: postgres:17-alpine
+    restart: "no"
+
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - ./database/cleanup-test-data.sql:/cleanup-test-data.sql:ro
+
+    depends_on:
+      tests:
+        condition: service_completed_successfully
+
+    command: ["psql", "-h", "database", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}", "-v", "ON_ERROR_STOP=1", "-f", "/cleanup-test-data.sql"]
+
+    networks:
+      - geoemploi-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+
+    restart: unless-stopped
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      cleanup:
+        condition: service_completed_successfully
+
+    networks:
+      - geoemploi-network
+
+volumes:
+  postgres_data:
+
+networks:
+  geoemploi-network:

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#2b76ff"/>
+      <stop offset="50%" stop-color="#0d52f8"/>
+      <stop offset="100%" stop-color="#003cd6"/>
+    </linearGradient>
+    <linearGradient id="pinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e8f0fe"/>
+    </linearGradient>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e6bff"/>
+      <stop offset="100%" stop-color="#0043dc"/>
+    </linearGradient>
+    <linearGradient id="flapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d78ff"/>
+      <stop offset="100%" stop-color="#145bf3"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#001a66" flood-opacity="0.35"/>
+    </filter>
+    <filter id="caseShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#00185e" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background container rounded squircle -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bgGrad)"/>
+
+  <!-- Subtle inner light border -->
+  <rect x="5" y="5" width="118" height="118" rx="27" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.25"/>
+
+  <!-- Map Pin Background -->
+  <g filter="url(#shadow)">
+    <!-- Main white location pin -->
+    <path d="M64 20 C46.3 20 32 34.3 32 52 C32 67.5 54 94 64 103 C74 94 96 67.5 96 52 C96 34.3 81.7 20 64 20 Z" fill="url(#pinGrad)"/>
+    <!-- Hole in pin -->
+    <circle cx="64" cy="50" r="16" fill="#0d52f8"/>
+  </g>
+
+  <!-- Briefcase on top of pin -->
+  <g filter="url(#caseShadow)">
+    <!-- Handle -->
+    <path d="M54 49 V44 C54 41.8 55.8 40 58 40 H70 C72.2 40 74 41.8 74 44 V49" fill="none" stroke="#0044dd" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M54 49 V44 C54 41.8 55.8 40 58 40 H70 C72.2 40 74 41.8 74 44 V49" fill="none" stroke="#3381ff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Briefcase Main Body -->
+    <rect x="40" y="53" width="48" height="34" rx="6" fill="url(#caseGrad)"/>
+
+    <!-- Briefcase Top Flap -->
+    <path d="M40 59 C40 55.7 42.7 53 46 53 H82 C85.3 53 88 55.7 88 59 V67 C88 68.1 87.1 69 86 69 H42 C40.9 69 40 68.1 40 67 Z" fill="url(#flapGrad)"/>
+
+    <!-- Central Lock / Buckle -->
+    <rect x="60" y="66" width="8" height="6" rx="1.5" fill="#f0f5ff" stroke="#c0d4ff" stroke-width="0.5"/>
+  </g>
+</svg>
