@@ -1,3 +1,7 @@
+# GeoEmploi
+
+Application web de mise en relation entre demandeurs d'emploi et employeurs, avec des offres d'emploi géolocalisées sur une carte interactive. Projet EPITECH pour le « Ministère du Job et Bonheur ».
+
 > **Epitech · `G-SVR-500` (« survivor »)** — projet d'équipe mené avec
 > [cray06](https://github.com/cray06),
 > [TheSpectre07](https://github.com/TheSpectre07),
@@ -10,10 +14,6 @@
 > Le dépôt d'origine est privé.
 
 ---
-
-# GeoEmploi
-
-Application web de mise en relation entre demandeurs d'emploi et employeurs, avec des offres d'emploi géolocalisées sur une carte interactive. Projet EPITECH pour le « Ministère du Job et Bonheur ».
 
 ## Fonctionnalités
 
